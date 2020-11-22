@@ -1,0 +1,82 @@
+//JUEGO DE LEDS
+//MOREJÓN STEFANY
+//Declaración de variables
+int led1=13;                                    
+int led2=12;
+int led3=11;
+int led4=10;
+int led5=9;
+int led6=8;
+
+int contador_1=0;
+
+int sw1=6;
+int sw2=5;
+int sw3=4;
+int sw4=3;
+
+//Vectores
+int leds_1[3]={led2,led4,led6};    
+int leds_2[3]={led1,led3,led5};
+int leds_3[6]={led1,led2,led3,led4,led5, led6};
+
+void setup() {
+  pinMode(led1,OUTPUT);  //Declaracion de pines tanto de salida como de entrada
+  pinMode(led2,OUTPUT);
+  pinMode(led3,OUTPUT);
+  pinMode(led4,OUTPUT);
+  pinMode(led5,OUTPUT);
+  pinMode(led6,OUTPUT);
+  
+  pinMode(sw1,INPUT);
+  pinMode(sw2,INPUT);
+  pinMode(sw3,INPUT);
+  pinMode(sw4,INPUT);
+ }
+
+void loop() { 
+//JUEGO 1
+ if(digitalRead(sw1)==HIGH&&digitalRead(sw2)==LOW&&digitalRead(sw3)==LOW&&digitalRead(sw4)==LOW) //condicion del juego
+  {
+  for (;contador_1<5;contador_1++)
+      {
+        digitalWrite(leds_1[contador_1],HIGH); //enciende leds del vector leds1 (PARES)
+        delay(200);                          //retardo
+        digitalWrite(leds_1[contador_1],LOW);  //apaga leds del vector leds1
+        delay(200);                          //retardo 
+      }
+    contador_1=0;                             //reinicia contador
+  }  
+ // JUEGO 2
+ if(digitalRead(sw1)==LOW&&digitalRead(sw2)==HIGH&&digitalRead(sw3)==LOW&&digitalRead(sw4)==LOW) // condicion del juego
+  {
+    for (;contador_1<3;contador_1++)                   //contador
+      {
+        digitalWrite(leds_2[contador_1],HIGH);         //enciende leds del vector leds2 (IMPARES)
+        delay(200);                                  //retardo
+        digitalWrite(leds_2[contador_1],LOW);          //apaga leds del vector leds2
+        delay(200);                                  //retardo
+      }
+    contador_1=0;                                     //reinicia el contador1
+  }  
+ // JUEGO 3
+  if(digitalRead(sw1)==LOW&&digitalRead(sw2)==LOW&&digitalRead(sw3)==HIGH&&digitalRead(sw4)==LOW)    //condicion del juego
+  {
+        for (;contador_1<6;contador_1++)                                       //CONTADOR
+      {
+        digitalWrite(leds_3[contador_1],HIGH);                                 //enciende leds del vector leds3   (SECUENCIAL)                       
+        delay(200);                                                          //retardo
+        digitalWrite(leds_3[contador_1],LOW);                                  //apaga leds del vector leds3                            
+        delay(200);                                                          //retardo
+        }
+    contador_1=0;                                                            //retardo  
+  }  
+   if(digitalRead(sw1)==LOW&&digitalRead(sw2)==LOW&&digitalRead(sw3)==LOW&&digitalRead(sw4)==HIGH) //condicion del juego
+  {
+        int rnd=random(13);                                                      // variable que genera numero aleatorio       
+        digitalWrite(rnd,HIGH);                                                  //enciende leds de manera aleatoria
+        delay(100);  
+        digitalWrite(rnd,LOW);                                                   //apaga leds de manera aleatoria
+        delay(100); 
+  } 
+}
