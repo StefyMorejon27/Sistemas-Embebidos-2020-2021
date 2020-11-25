@@ -1,0 +1,84 @@
+#include <LiquidCrystal.h>
+LiquidCrystal lcd (13,12,11,10,9,8);
+String cod; //Codigo de usuario
+String u; // Nombre ususario
+String nam[4];
+boolean arrayt[4]={false, false, false, false};
+int cont=0;
+int btn=2;
+void setup() {
+  
+ pinMode(btn,INPUT);
+ lcd.begin(16,2);
+ Serial.begin(9600);
+ attachInterrupt(digitalPinToInterrupt(btn), lectura, RISING);
+ Serial.println("Ingrese Su Contrasena: ");
+
+}
+
+void loop(){
+    if(Serial.available()>0){ // detecta si ingresadatos en comunicacion serial
+      cod = Serial.readString(); //leer dato
+      u = Serial.println(cod); //Imprimir la contraseña
+      //validar los caracteres
+      nam[cont] = cod;
+      cont++;
+      if(cod == "ca900813"){
+        u = " Carlos Arias";
+        arrayt[0]=true;
+        }else if(cod=="aj881112" ){
+          u = " Andres Juarez";
+          arrayt[1]=true;
+        }else if(cod == "ja890109"){
+          u= " Javier Andrade";
+            arrayt[2]=true;
+        }else if(cod=="sm930827"){
+          u = " Stefany Morejon";
+            arrayt[3]=true;
+
+          Serial.println("Registro Correcto");
+           
+        }else{
+          u = "Usuario no registrado";
+          Serial.println("El usuario no posee registro");
+        }
+        for (int j=0; j<2;j++){
+          for(int i=-12;i<16;i++){
+            lcd.setCursor(i,0);
+            lcd.print("Bienvenido");
+            lcd.setCursor(i,1);
+            lcd.print(u);
+            delay(100);
+            lcd.clear();
+            
+          }
+        }
+    }
+}
+
+void lectura(){
+  if (arrayt[0]==true){
+    Serial.println("Carlos Arias registrado");
+  }else{
+    Serial.println("Carlos Arias no se registro");
+  }
+  
+  if (arrayt[1]==true){
+    Serial.println("Andres Juarez registrado");
+  }else{
+    Serial.println("Andres Juarez no se registro");
+  }
+  
+  if (arrayt[2]==true){
+    Serial.println("Javier Andrade registrado");
+  }else{
+    Serial.println("Javier Andrade no se registro");
+  }
+  
+  if (arrayt[3]==true){
+    Serial.println("Stefany Morejon registrado");
+  }else{
+    Serial.println("Stefany Morejon no se registro");
+  } 
+  
+}
