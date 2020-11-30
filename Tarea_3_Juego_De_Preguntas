@@ -1,0 +1,233 @@
+/*TAREA_3 : Realizar un programa de juego de preguntas. 
+ * Se debe tener mínimo 8 preguntas que deben observarse en orden aleatorio. 
+ * La forma de visualización es por medio de comunicación serial. 
+ * Su respuesta solo debe ser "SI" y "NO" ingresadas de la misma forma por comunicación serial.
+Al final de mostrar solo 5 de las 8 preguntas. Se presentan el puntaje (respuestas acertadas) en un display.
+ * NOMBRE:Morejón Stefany
+ * 
+ */
+//Variables
+int cont=0;
+int cont_2=0;
+int aleatorio;
+int p_1=0;
+int p_2=0;
+int p_3=0;
+int p_4=0;
+int p_5=0;
+int p_6=0;
+int p_7=0;
+int p_8=0;
+int limite=0;
+String dato;
+int puntuacion=0;
+void setup() {
+  pinMode(13,OUTPUT);
+  pinMode(12,OUTPUT);
+  pinMode(11,OUTPUT);
+  pinMode(10,OUTPUT);
+
+  Serial.begin(9600);
+  Serial.println("Responda: SI o NO");
+  Serial.println("");
+  delay(500);
+}
+
+void loop() {
+aleatorio=random(1,9);
+delay(200);
+
+if(Serial.available()>0&&cont<6){ //Bloquear las preguntas cuando llegue a 5 y poder imprimir puntaje
+  dato=Serial.readString();
+  Serial.println("");
+  
+  if(aleatorio==1){
+    if(dato=="NO"){
+      puntuacion=puntuacion+1;
+      cont_2=cont_2+1;
+      limite=0;
+    }
+    else{
+    cont_2=cont_2+1;      
+      limite=0;
+    }
+  }
+   if(aleatorio==2){
+  if(dato=="NO"){
+    puntuacion=puntuacion+1;
+     cont_2=cont_2+1;
+      limite=0;
+    }
+    else{
+      cont_2=cont_2+1;
+      limite=0;
+    }  
+  }
+   if(aleatorio==3){
+    if(dato=="NO"){
+      puntuacion=puntuacion+1;
+      cont_2=cont_2+1;
+      limite=0;
+    }
+    else{
+      cont_2=cont_2+1;
+      limite=0;
+    }
+  }
+   if(aleatorio==4){
+   if(dato=="NO"){
+    puntuacion=puntuacion+1;
+     cont_2=cont_2+1;
+      limite=0;
+    }
+    else{
+      cont_2=cont_2+1;
+      limite=0;
+    } 
+  }
+   if(aleatorio==5){
+    if(dato=="NO"){
+      puntuacion=puntuacion+1;
+      cont_2=cont_2+1;
+      limite=0;
+    }
+    else{
+      cont_2=cont_2+1;
+      limite=0;
+    }
+  }
+   if(aleatorio==6){
+    if(dato=="NO"){
+      puntuacion=puntuacion+1;
+      cont_2=cont_2+1;
+     limite=0;
+    }
+    else{
+      cont_2=cont_2+1;
+      limite=0;
+    }
+  }
+   if(aleatorio==7){
+    if(dato=="NO"){
+      puntuacion=puntuacion+1;
+      cont_2=cont_2+1;
+      limite=0;
+    }
+    else{
+      cont_2=cont_2+1;
+      limite=0;
+    }
+  }
+   if(aleatorio==8){
+    if(dato=="NO"){
+      puntuacion=puntuacion+1;
+      cont_2=cont_2+1;
+     limite=0;
+    }
+    else{
+      cont_2=cont_2+1;
+      limite=0;
+    }
+  }
+}
+if (cont<5 && limite==0){
+if(aleatorio==1 && p_1==1){
+  Serial.println("La intensidad de corriente se representa por V");
+  limite=1; // Evita que se impriman nuevamente las preguntas
+  cont=cont+1;
+  p_1=1;  
+}
+if(aleatorio==2 && p_2==0){
+  Serial.println("El voltaje se mide en amperios");
+ limite=1;
+  cont=cont+1;
+  p_2=1;
+}
+if(aleatorio==3 && p_3==0){
+  Serial.println("Un pulsador abierto , si lo presiono se cierra dejando pasar la corriente solo durante el tiempo de pulsado");
+  limite=1;
+  cont=cont+1;
+  p_3=1;
+}
+if(aleatorio==4 && p_4==0){
+    Serial.println("Cuanto mayor sea la resistencia de conductor electrico menor sera la intensidad de corriente que circule");
+  limite=1;
+  cont=cont+1;
+  p_4=1;
+}
+if(aleatorio==5 && p_5==0){
+    Serial.println("La resistencia que opone una bombilla al paso de la corriente se mide en voltios.");
+  limite=1;
+  cont=cont+1;
+  p_5=1;
+}
+
+if(aleatorio==6 && p_6==0){
+    Serial.println("Una resistencia R es un receptor que transforma la energía electrica de la pila en energia calorifica.");
+  limite=1;
+  cont=cont+1;
+  p_6=1;
+}
+if(aleatorio==7 && p_7==0){
+    Serial.println("La formula de la potencia es: P = V x I");
+  limite=1;
+  cont=cont+1;
+  p_7=1;
+}
+if(aleatorio==8 && p_8==0){
+    Serial.println("Los componentes de un circuito electrico son; generador, cable conductor y receptores.");
+  limite=1;
+  cont=cont+1;
+  p_8=1;
+}
+}
+
+if(cont_2==5){ // Puntuación mostrada en comunicación Serial
+  Serial.print("");
+  Serial.print("Su Puntaje es: ");
+  Serial.print(puntuacion);
+  Serial.println("/5");
+  puntaje();
+  cont_2=0;
+} 
+}
+void puntaje(){ //Visualización del puntaje en el Display
+  switch(puntuacion){
+    case 0:
+    digitalWrite(13,LOW);
+    digitalWrite(12,LOW);
+    digitalWrite(11,LOW);
+    digitalWrite(10,LOW);
+    break;
+    case 1:
+    digitalWrite(13,HIGH);
+    digitalWrite(12,LOW);
+    digitalWrite(11,LOW);
+    digitalWrite(10,LOW);
+    break;
+    case 2:
+    digitalWrite(13,LOW);
+    digitalWrite(12,HIGH);
+    digitalWrite(11,LOW);
+    digitalWrite(10,LOW);
+    break;
+    case 3:
+    digitalWrite(13,HIGH);
+    digitalWrite(12,HIGH);
+    digitalWrite(11,LOW);
+    digitalWrite(10,LOW);
+    break;
+    case 4:
+    digitalWrite(13,LOW);
+    digitalWrite(12,LOW);
+    digitalWrite(11,HIGH);
+    digitalWrite(10,LOW);
+    break;   
+      case 5:
+    digitalWrite(13,HIGH);
+    digitalWrite(12,LOW);
+    digitalWrite(11,HIGH);
+    digitalWrite(10,LOW);
+    break;   
+  }
+}
