@@ -1,0 +1,29 @@
+//Morejón Stefany
+//Tarea 5
+#include <Servo.h>//Libreria del Servo
+int dato;
+int grados = 0;
+Servo servo;
+void setup(){
+  Serial.begin(9600);
+    servo.attach(9);
+    pinMode(5,INPUT);
+    pinMode(6,INPUT);
+    attachInterrupt(0, modo2, RISING);
+    attachInterrupt(1, modo3, RISING);
+ }
+void loop() {
+  servo.write(grados);
+}
+void modo2(){
+ if(Serial.available()>0){
+dato = Serial.read();
+Serial.print("Girar el motor a: "); 
+Serial.println(dato);
+}
+if (grados<180) grados=dato; 
+dato =0;
+}
+void modo3(){
+if (grados>0) grados=grados-100;
+}
