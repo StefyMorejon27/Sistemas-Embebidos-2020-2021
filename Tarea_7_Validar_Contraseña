@@ -1,0 +1,47 @@
+//Morejón Stefany
+// Tarea 7 VALIDAR CONTRASEÑA
+#include<EEPROM.h>
+String dato; // dato de entrada por el usuario
+int intdato; //convertir  a entero
+int vector [4]; // cambiar  a vector
+void setup(){
+   Serial.begin(9600);
+   pinMode(8,OUTPUT);
+   contrasena();
+}
+void loop(){
+
+}
+
+void contrasena(){
+if(EEPROM.read(0)==255){
+    EEPROM.write(4,4);
+    EEPROM.write(5,5);
+    EEPROM.write(6,6);
+    EEPROM.write(3,3);
+    EEPROM.write(0,0);  
+  }  
+}
+void serialEvent(){
+  if(Serial.available()>0){
+       dato=Serial.readString();
+       if(dato.length()==4){
+         intdato=dato.toInt();    //4563    
+         vector[0]=intdato/1000;  //4
+         vector[1]=(intdato-vector[0]*100)/100; // 5
+         vector[2]=intdato-(vector[0]*100+vector[1]/1000)+2; //6
+         vector[3]=intdato-(vector[0]*100+vector[1]/1000)-1; //3
+       if(EEPROM.read(4)==vector[0]&&EEPROM.read(5)==vector[1]&&EEPROM.read(6)==vector[2]&&EEPROM.read(3)==vector[3]){
+           digitalWrite(8,HIGH);
+           Serial.println("CONTRASENA CORRECTA");
+         }
+       else{
+         digitalWrite(8,LOW);
+               Serial.println("CONTRASENA INCORRECTA");
+         }
+    }
+    else{
+      Serial.println("CONTRASEÑA INCORRECTA");
+    }
+  }
+}
