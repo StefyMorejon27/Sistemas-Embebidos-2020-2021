@@ -1,0 +1,86 @@
+//Morejón Stefany
+//Deber 6
+#include <TimerOne.h>
+#include <LiquidCrystal.h>
+LiquidCrystal lcd (13, 12, 11, 10, 9, 8);
+int h = 0;   // para las horas
+int m = 1;  // para los minutos
+int s = 50 - 1; // para los segundos
+boolean actualizar = true;
+char h_ingresa;
+char m_ingresa;
+String h_alarma;
+String m_alarma;
+void setup() {
+  Serial.begin(9600);
+  lcd.begin(16, 2);   // inicializar la lcd
+  pinMode(5, OUTPUT);
+  Timer1.initialize(1000000);  //cada 1s se produce una interrupción por lo que es un reloj
+  Timer1.attachInterrupt(manejodeltimer);// cada que pase un segundo que realize la función de manejo
+}
+void timer() {  // cada que se ejecute la interrupción va a realizar esta función.
+  s++;                    // cada que pase un segundo se incremete la variable de los segundos
+  actualizar = true;     // si se incrementa s entonces actualizar es verdadera
+}
+void Reloj() {
+
+  if (s > 59) {     // Cuando los segundos lleguen a 59 incrementen los minutos y los segundos vuelvan a cero
+    m++;
+    s = 0;
+  }
+  if (m > 59) {    // Cuando los minutos lleguen a 60 incrementen las horas y los minutos vuelvan a cero
+    h++;
+    m = 0;
+  }
+  if (h > 23) {   // si las horas son mayores a 23todo vuelve a cero
+    h = 0;
+    m = 0;
+    s = 0;
+  }
+}
+
+void loop() {
+  if (Serial.available() > 0) {
+    while (Serial.available() > 0) {
+      h_ingresa = Serial.read(); //leer palabras
+      h_alarma += h_ingresa;
+    }
+    while (Serial.available() > 0) {
+      m_ingresa = Serial.read(); //leer palabras
+      m_alarma += m_ingresa;
+  
+  }
+  if (m_alarma == m){
+    digitalWrite(buzzer, HIGH);
+  }
+ 
+}
+
+  if (actualizar == true) { 
+    Reloj ();     // se ejecuta la actualización del reloj
+    //RELOJ
+    lcd.setCursor(0, 0);      // primera fila de la lcd
+    if (h < 10)lcd.print("0"); // si las horas son menores a 10 imprime un cero delante
+    lcd.print(h);             // imprimirá las horas
+    lcd.print(":");           // imprimirá un espacio
+    if (m < 10)lcd.print("0"); // si los minutos son menores a 10 imprime un cero delante
+    lcd.print(m);             // imprimirá los minutos
+    lcd.print(":");           // imprimirá un espacio
+    if (s < 10)lcd.print("0"); // si los segundos son menores a 10 imprime un cero delante
+    lcd.print(s);             // imprimirá los segundos
+    lcd.print("   RELOJ");
+    //ALARMA
+    lcd.setCursor(0, 1);
+    lcd.print(h_alarma);
+    lcd.setCursor(2, 1);
+    lcd.print(":");
+    lcd.setCursor(3, 1);
+    lcd.print(m_alarma);
+    lcd.setCursor(5, 1);
+    lcd.print(":");
+    lcd.setCursor(8, 1);
+    lcd.print("  ALARMA");
+    actualizar = false;    
+  }
+
+}
