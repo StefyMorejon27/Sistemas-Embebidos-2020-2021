@@ -1,0 +1,38 @@
+/*
+ Morejón Stefany
+Tarea 10
+Realice una interfaz que permita mover una esfera por toda la pantalla mediante teclas.
+*/
+int on=0;
+int x=0;
+int y=0;
+void setup(){
+size(600,600);
+background(#DC8FE8);
+}
+void draw(){
+fill(#1A0418);
+background(#DC8FE8);
+ellipse(100+x,100+y,75,75);
+}
+void mouseClicked(){
+if(mouseButton==LEFT){
+on=1-on;
+}
+}
+void keyPressed(){
+switch(keyCode){
+case 37:
+x--;
+break;
+case 38:
+y--;
+break;
+case 39:
+x++;
+break;
+case 40:
+y++;
+break;
+}
+}
