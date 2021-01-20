@@ -1,0 +1,68 @@
+/* 
+ *  Nombre: Stefany Morejón
+ *  Tarea #11
+ */
+ int matriz[14][2]={
+  {170,67},
+  {180,80},
+  {170,65},
+  {178,75},
+  {160,55},
+  {163,60},
+  {165,63},
+  {170,70},
+  {164,62},
+  {176,77},
+  {164,60},
+  {170,76},
+  {170,56},
+  {168,60}
+};
+int col=0; //columnas
+int fil=0; //filas
+int x=0; // sum en x
+float y=0; //sum en y
+float xy=0; // sumatoria de x y y
+long int x2=0; 
+long int x_2=0; 
+float num=0;
+float den=0;
+int m=14; //matriz
+float o; // ordenada 
+String dato;
+float a;
+float peso;
+int estatura; 
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(2,INPUT); // Entrada de datos
+  pinMode(3, OUTPUT); // Salida
+ for(;fil<m;fil++){
+  x=x+matriz[fil][0];
+  y=y+log(matriz[fil][1]);
+  xy=xy+(matriz[fil][0]*log(matriz[fil][1]));
+  x2=x2+pow(matriz[fil][0],2);
+ }
+
+ x_2=pow(x,2);
+ num=float(m*xy)-float(x*y);
+ den=m*x2-x_2;
+ o=float(num/den);
+ float my1=y/m;
+ float mx=x/m;
+ float omx=o*mx;
+ float a1=my1-omx;
+ a=exp(a1);
+ Serial.println("Ingresar Estatura: ");
+}
+
+void loop() {
+ if(Serial.available()>0){
+  dato=Serial.readString();
+  estatura=dato.toInt();
+  peso=a*exp(o*estatura);
+  Serial.println(String("Su peso es: ")+String(peso)+String("Kg"));
+  Serial.println("Ingresar Estatura");
+ }
+}
