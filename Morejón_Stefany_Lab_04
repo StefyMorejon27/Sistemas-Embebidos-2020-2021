@@ -1,0 +1,130 @@
+/*
+Morejón Stefany
+Laboratorio 4
+*/
+import processing.serial.*;
+Serial port;
+int estatura;
+float peso;
+float a;
+float linea;
+int altura;
+int lpeso;
+int i=0;
+float num=0;
+float d=0;
+int col =0;
+int fil=0;
+int x=0;
+float y=0;
+float xy=0;
+float x2=0;
+float x_2=0;
+int n=14;
+float o;
+int filas=0;
+int columnas=0;
+
+int [][]matriz={
+  {170,67},
+  {180,80},
+  {170,65},
+  {178,75},
+  {160,55},
+  {163,60},
+  {165,63},
+  {170,70},
+  {164,62},
+  {176,77},
+  {164,60},
+  {170,76},
+  {170,56},
+  {168,60}
+};
+
+void setup(){
+  size(1000,800);
+  background(255);
+  port=new Serial(this, "COM10",9600);
+  
+ for(;fil<n;fil++){
+  x=x+matriz[fil][0];
+  y=y+log(matriz[fil][1]);
+  xy=xy+(matriz[fil][0]*log(matriz[fil][1]));
+  x2=x2+pow(matriz[fil][0],2);
+ }
+
+ x_2=pow(x,2);
+ num=(n*xy)-(x*y);
+ d=n*x2-x_2;
+ o=(num/d);
+ float my1=y/n;
+ float mx=x/n;
+ float omx=o*mx;
+ float a1=my1-omx;
+ a=exp(a1);
+}
+
+void serialEvent(Serial port){
+  estatura=port.read();
+  println(estatura);
+}
+void draw(){
+  background(#ECD0F0);
+  
+  textSize(35);
+  fill(#0A0A0A);
+  text("Laboratorio 4 - Regresión Exponencial",130,40);
+  textSize(30);
+  text("Stefany Morejón",725,300);
+  textSize(30);
+  text("Sistemas Embebidos",700,350);
+  stroke(0);
+  strokeWeight(2);
+  line(50,110,50,650);
+  line(50,650,650,650);
+  
+  for (int mapaY=110; mapaY<=590; mapaY=mapaY+60){
+    stroke(#616252);
+    strokeWeight(2);
+  line(50,mapaY,650,mapaY);
+  filas++;
+  textSize(15);
+  fill(0);
+  text(filas*10,20,710-mapaY);
+  if (filas==9)
+  filas=0;
+  
+}
+for (int mapaX=150; mapaX<=690; mapaX=mapaX+100){
+  stroke(#03020D);
+  strokeWeight(2);
+  line(mapaX,110,mapaX,650);
+  columnas++;
+  textSize(15);
+  fill(0);
+  text(columnas*5+155,mapaX-12,670);
+  if(columnas==7)
+  columnas=0;
+}
+for(i=160;i<=180;i++){
+ linea=a*exp(o*i);
+stroke(0,0,255);
+strokeWeight(1);
+fill(#1B1483);
+line(150*15-2200,575-43.565*5,(190*15)-2200,600-90.753*5);
+}
+for(i=0;i<14;i++){
+  altura=matriz[i][0];
+  lpeso=matriz[i][1];
+  stroke(0);
+  strokeWeight(1);
+  fill(#FA240D);
+  ellipse(altura*20-3050,650-lpeso*6,7.5,7.5);
+}
+peso=a*exp(o*estatura);
+stroke(0);
+strokeWeight(1);
+fill(#E7FC05);
+ellipse(estatura*20-3050,650-peso*6,10,10);
+}
