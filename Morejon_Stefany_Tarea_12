@@ -1,0 +1,56 @@
+/*
+ * Morejón Stefany
+ * Tarea 12
+ */
+#include"datos.h"     
+int i;                 
+float nuevox=0.55;     
+float nuevoy=0.7;      
+float distancia;       
+float distancia1;     
+float distancia2;      
+float dist_menor=5;    
+float dist_menor1=10;  
+float dist_menor2=15;  
+float resultado;        
+float resultado1;     
+float resultado2;     
+
+void setup() {
+Serial.begin(9600); 
+}
+void loop() {
+    
+for(;i<20;i++){     
+   distancia=sqrt(pow((datos[i][0]-nuevox),2)+pow((datos[i][1]-nuevoy),2));
+        if(distancia<dist_menor){  
+        dist_menor=distancia;   
+        resultado=datos[i][2];  
+        resultado=resultado;    
+        }
+   distancia1=sqrt(pow((datos[i][0]-nuevox),2)+pow((datos[i][1]-nuevoy),2));  
+        if(distancia1<dist_menor1&&distancia1>dist_menor){  
+        dist_menor1=distancia1;  
+        resultado1=datos[i][2]; 
+        resultado1=resultado1;  
+        }
+   distancia2=sqrt(pow((datos[i][0]-nuevox),2)+pow((datos[i][1]-nuevoy),2));  
+        if(distancia2<dist_menor2&&distancia2>dist_menor1){ 
+        dist_menor2=distancia2; 
+        resultado2=datos[i][2]; 
+        resultado2=resultado2;     
+        }
+        }
+ Serial.print("Grupo: ");
+ Serial.println(resultado);
+ Serial.println(dist_menor);
+ delay(1000);
+ Serial.print("Grupo: ");
+ Serial.println(resultado1);
+ Serial.println(dist_menor1);
+ delay(1000);
+ Serial.print("Grupo: ");
+ Serial.println(resultado2);
+ Serial.println(dist_menor2);
+delay(1000);
+}
